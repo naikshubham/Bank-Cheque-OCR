@@ -18,9 +18,9 @@ from imutils import contours
 from keras.models import load_model
 #from .ext_ocr_details import *
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'./hackathon-bf39302e7ac7.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'./../vision-91b4ebf7783a.json'
 #tr.tesseract_cmd = 'C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe'
 charNames = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "T", "U", "A", "D"]
 rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (17, 7))
-mnist_model = load_model('./mnist_GC_v1.h5')
+mnist_model = load_model('./../mnist_GC_v1.h5')
 

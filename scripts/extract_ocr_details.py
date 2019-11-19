@@ -12,7 +12,7 @@ def ext_ocr_details(img):
 	f_fill_img = np.copy(img_th)
 	h, w = img_th.shape[:2]
 	f_fill_img_inv = cv2.bitwise_not(f_fill_img)
-	cv2.imwrite('dilated.jpg', f_fill_img_inv)
+	cv2.imwrite('./../dilated.jpg', f_fill_img_inv)
 	pil_img = Image.fromarray(img)
 	cord_dict = {}
 	re1 = 'ifs'
@@ -55,7 +55,11 @@ def ext_ocr_details(img):
 
 			cv2.rectangle(cv_img_bkp, (x, y), (x + w, y + h), (0, 0, 255), 1)
 			pil_word = pil_img.crop((x, y, x+w, y+h))
-			text = tr.image_to_string(pil_word, config='--psm 6')
+			pil_word.save('pil_word.jpg')
+			text = vision_api('./pil_word.jpg')
+			# print('ac_no ->', "".join(ac_no))
+			text = "".join(text)
+			# text = tr.image_to_string(pil_word, config='--psm 6')
 			# print(text)
 			filtered_text = text.strip().lower()
 			matches = generic_regex.findall(filtered_text)
@@ -65,7 +69,7 @@ def ext_ocr_details(img):
 				# print('matches ->', matches)
 				if filtered_text not in cord_dict.keys():
 					cord_dict[filtered_text] = [(x, y), (x+w, y+h)]
-	cv2.imwrite('check_cont_.jpg', cv_img_bkp)
+	cv2.imwrite('./../check_cont_.jpg', cv_img_bkp)
 			#word = img[y:y+h, x:x+w]
 			#word = cv2.resize(word, (100, 32))
 			#word = cv2.threshold(word, 0, 255, cv2.THRESH_OTSU)[1]
@@ -79,14 +83,15 @@ def ext_ocr_details(img):
 			#	img[y:y+h, x:x+w] = 255
 			#else:
 			#	str_label = 'handwritten'
+	ac_no = ''
 	for key,value in cord_dict.items():
 		if 'no' in key.strip().lower():
 			x = value[1][0] + 100 
 			y = value[0][1] - 20
 			w = 1000
 			h = 90
-			cv2.imwrite('./feilds/ac_no.jpg', img[y:y+h, x:x+w])
-			ac_no = vision_api('./feilds/ac_no.jpg')
+			cv2.imwrite('./../feilds/ac_no.jpg', img[y:y+h, x:x+w])
+			ac_no = vision_api('./../feilds/ac_no.jpg')
 			# print('ac_no ->', "".join(ac_no))
 			ac_no = "".join(ac_no)
 
@@ -95,8 +100,8 @@ def ext_ocr_details(img):
 			y = value[0][1] - 20
 			w = 1000
 			h = 90
-			cv2.imwrite('./feilds/ac_no.jpg', img[y:y+h, x:x+w])
-			ac_no = vision_api('./feilds/ac_no.jpg')
+			cv2.imwrite('./../feilds/ac_no.jpg', img[y:y+h, x:x+w])
+			ac_no = vision_api('./../feilds/ac_no.jpg')
 			# print('ac_no ->', "".join(ac_no))
 			ac_no = "".join(ac_no)
 
@@ -105,8 +110,8 @@ def ext_ocr_details(img):
 			y = value[0][1] - 20
 			w = 1000
 			h = 90
-			cv2.imwrite('./feilds/ac_no.jpg', img[y:y+h, x:x+w])
-			ac_no = vision_api('./feilds/ac_no.jpg')
+			cv2.imwrite('./../feilds/ac_no.jpg', img[y:y+h, x:x+w])
+			ac_no = vision_api('./../feilds/ac_no.jpg')
 			# print('ac_no ->', "".join(ac_no))
 			ac_no = "".join(ac_no)
 
@@ -117,8 +122,8 @@ def ext_ocr_details(img):
 			h = 30
 			#print('ifsc ->', (x, y, w, h))
 			ifsc_pt = y+h 
-			cv2.imwrite('./feilds/ifsc.jpg', img[y:y+h, x:x+w])
-			ifsc = vision_api('./feilds/ifsc.jpg')
+			cv2.imwrite('./../feilds/ifsc.jpg', img[y:y+h, x:x+w])
+			ifsc = vision_api('./../feilds/ifsc.jpg')
 			# print('ifsc->', "".join(ifsc))
 			ifsc = "".join(ifsc)
 
@@ -129,8 +134,8 @@ def ext_ocr_details(img):
 			h = 30
 			ifsc_pt = y+h
 			#print('ifsc ->', (x, y, w, h))
-			cv2.imwrite('./feilds/ifsc.jpg', img[y:y+h, x:x+w])
-			ifsc = vision_api('./feilds/ifsc.jpg')
+			cv2.imwrite('./../feilds/ifsc.jpg', img[y:y+h, x:x+w])
+			ifsc = vision_api('./../feilds/ifsc.jpg')
 			# print('ifsc->', "".join(ifsc))
 			ifsc = "".join(ifsc)
 
@@ -143,9 +148,9 @@ def ext_ocr_details(img):
 			sign = pad_img(sign, sign)[0]
 			# sign = sign.flatten()
 			# sign = Image.fromarray(sign)
-			cv2.imwrite('./feilds/org_signature.jpg', sign)
+			cv2.imwrite('./../feilds/org_signature.jpg', sign)
 			sign = cv2.resize(sign, (200, 100))
-			cv2.imwrite('./feilds/signature.jpg', sign)
+			cv2.imwrite('./../feilds/signature.jpg', sign)
 
 		if 'bearer' in key.strip().lower():
 			w = value[0][0] - 285
@@ -161,8 +166,8 @@ def ext_ocr_details(img):
 			bearer = correct_line(bearer)[0]
 			bearer = pad_img(bearer, bearer)[0]
 			bearer = pad_bearer(bearer)
-			cv2.imwrite('./feilds/payee.jpg', bearer)
-			bearer = vision_api('./feilds/payee.jpg')
+			cv2.imwrite('./../feilds/payee.jpg', bearer)
+			bearer = vision_api('./../feilds/payee.jpg')
 			# print('payee name->', " ".join(bearer).strip())
 			bearer = " ".join(bearer)
 

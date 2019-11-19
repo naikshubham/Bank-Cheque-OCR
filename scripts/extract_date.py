@@ -2,12 +2,12 @@ from imports import *
 from preprocess import pad_img
 from vision import vision_api
 
-mnist_model = load_model('./mnist_GC_v1.h5')
+mnist_model = load_model('./../mnist_GC_v1.h5')
 #model = load_model('./mnist_model.h5')
 
 def ext_date(img, mask):
 
-	date_path = './feilds/Date/'
+	date_path = './../feilds/Date/'
 	if os.path.exists(date_path) and os.path.isdir(date_path):
 		shutil.rmtree(date_path)
 
@@ -24,7 +24,7 @@ def ext_date(img, mask):
 	padded_img, padded_img_bkp = pad_img(date_img_mask, date_img_bkp)
 	if padded_img_bkp.ndim == 2:
 		date_img_color = cv2.cvtColor(padded_img_bkp, cv2.COLOR_GRAY2RGB)
-	cv2.imwrite('init_date_mask.jpg', padded_img)
+	cv2.imwrite('./../init_date_mask.jpg', padded_img)
 	new_mask = np.ones_like(padded_img) * 255
 	im, dateContours, hier = cv2.findContours(padded_img_bkp, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 	#dateContours = contours.sort_contours(dateContours, method="left-to-right")[0]
@@ -53,7 +53,7 @@ def ext_date(img, mask):
 			# new_img = cv2.resize(new_img, (28, 28))
 			date.append(new_img)
 			# pil_img = Image.fromarray(new_img)
-			cv2.imwrite('./feilds/Date/date_img_'+str(count)+'.jpg', new_img)
+			cv2.imwrite('./../feilds/Date/date_img_'+str(count)+'.jpg', new_img)
 			count += 1
 			contour_counts += 1
 			# print(tr.image_to_text(pil_img))
@@ -67,11 +67,11 @@ def ext_date(img, mask):
 			#if np.argmax(model_out) == 1:
 			#print(np.argmax(model_out))
 	f_date = []
-	digits = [file for file in os.listdir('./feilds/Date/')]
+	digits = [file for file in os.listdir('./../feilds/Date/')]
 	digits = digits[::-1]
 	for d in digits:
 		# print(d)
-		img = cv2.imread('./feilds/Date/'+d, 0)
+		img = cv2.imread('./../feilds/Date/'+d, 0)
 		img = cv2.resize(img, (28, 28))
 		img = cv2.threshold(img, 0, 255, cv2.THRESH_OTSU)[1]
 		img = cv2.bitwise_not(img)

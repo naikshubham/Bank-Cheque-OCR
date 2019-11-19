@@ -149,7 +149,7 @@ def correct_line(image):
 	final_mask = cv2.bitwise_or(vertical_line, vertical_line, mask = horizontal_line)
 #	  final_mask = draw_horizontal_line(final_mask)
 
-	cv2.imwrite('final_mask.jpg', final_mask)
+	cv2.imwrite('./../final_mask.jpg', final_mask)
 	final_mask = cv2.threshold(final_mask, 0, 255, cv2.THRESH_OTSU)[1]
 
 	res = cv2.bitwise_and(binary_image, binary_image, mask = final_mask)

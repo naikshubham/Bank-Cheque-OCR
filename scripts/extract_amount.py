@@ -4,7 +4,7 @@ from vision import vision_api
 
 def ext_amount(image, template):
 
-	amount_path = './feilds/Amount/'
+	amount_path = './../feilds/Amount/'
 	if os.path.exists(amount_path) and os.path.isdir(amount_path):
 		shutil.rmtree(amount_path)
 	img_bkp = np.copy(image)
@@ -58,7 +58,7 @@ def ext_amount(image, template):
  
 	# draw a bounding box around the detected result and display the image
 	cv2.rectangle(img_bkp, (startX, startY), (endX, endY), (0, 0, 255), 2)
-	cv2.imwrite('final_templ.jpg', img_bkp)
+	cv2.imwrite('./../final_templ.jpg', img_bkp)
 	# print('startX->', startX, 'startY->', startY, 'endX->', endX, 'endY->', endY)
 	"""
 	w, h = template.shape[::-1]
@@ -93,8 +93,8 @@ def ext_amount(image, template):
 	padded_img, padded_img_bkp = pad_img(amount, amount)
 	padded_img = cv2.copyMakeBorder(padded_img, top=5, bottom=5, left=5, right=5, borderType= cv2.BORDER_CONSTANT, value=[255,255,255])
 	padded_img_bkp = cv2.copyMakeBorder(padded_img_bkp, top=5, bottom=5, left=5, right=5, borderType= cv2.BORDER_CONSTANT, value=[255,255,255])
-	cv2.imwrite('./feilds/Amount/padded_amount.jpg', padded_img)
-	amount = vision_api('./feilds/Amount/padded_amount.jpg')
+	cv2.imwrite('./../feilds/Amount/padded_amount.jpg', padded_img)
+	amount = vision_api('./../feilds/Amount/padded_amount.jpg')
 	# print('amount->', "".join(amount))
 	amount = "".join(amount)
 	return amount

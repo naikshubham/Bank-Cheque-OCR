@@ -76,7 +76,7 @@ def find_ref_micr_contours(image):
 
 
 def find_ref_micr_data():
-    directory = './'
+    directory = './../'
     image = cv2.imread(directory + 'reference_micr.png', 0)
     ref, refCnts = find_ref_micr_contours(image)
     refROIs = extract_digits_and_symbols(ref, refCnts, minW=10, minH=20)[0]
